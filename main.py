@@ -1,9 +1,7 @@
-import pdfplumber
+import pdfplumber 
 import pandas as pd
 import tkinter as tk
-from tkinter import filedialog
-
-
+from tkinter import filedialog, messagebox
 
 def convertir_documento(ruta_pdf, ruta_excel):
     """
@@ -17,14 +15,14 @@ def convertir_documento(ruta_pdf, ruta_excel):
         primera_pagina = pdf.pages[0]
         # extract_table() mapea las coordenadas del PDF y devuelve los datos en una lista de listas
         tabla = primera_pagina.extract_table()
-        print(tabla)
         # --- TRANSFORMACIÓN Y CARGA ---
         #Convertimos la lista de listas en un DataFrame (estructura de tabla virtual en memoria)
         df = pd.DataFrame(tabla)
         # Exportamos el DataFrame a un archivo Excel físico.
         # index=False y header=False evitan que Pandas agregue números de fila y columna automáticos.
         df.to_excel(ruta_excel, index=False, header=False)
-        print("Archivo Excel generado exitosamente!")
+        # Mostramos un mensaje de confirmación al usuario
+        messagebox.showinfo("Conversión Exitosa", "El PDF ha sido convertido exitosamente a Excel.")
 
 #convertir_documento("Prueba.pdf")
 
@@ -51,8 +49,13 @@ def seleccionar_archivo():
 ventana = tk.Tk()
 # Asignamos el título que aparecerá en la barra superior
 ventana.title("Conversor de PDF a Excel")
+#Ajustamos el tamaño de la ventana a 400x250 píxeles
+ventana.geometry("400x250")
+ventana.config(bg="#f0f0f0")  # Cambiamos el color de fondo a un gris claro
+# Agregamos un label (etiqueta) para dar instrucciones al usuario. 
+tk.Label(ventana, text="Transforma tus PDF de tablas a Excel con un clic ", bg="#f0f0f0", font=("Segoe UI", 12)).pack(pady=20) 
 # Creamos el botón principal. El parámetro 'command' es el puente que conecta el clic del usuario con nuestra función 'seleccionar_archivo' (sin paréntesis)
-boton_seleccionar = tk.Button(ventana, text="Seleccionar PDF", command=seleccionar_archivo)
+boton_seleccionar = tk.Button(ventana, text="Seleccionar PDF", command=seleccionar_archivo, bg="#28a745", fg="white", font=("Segoe UI", 10, "bold"), cursor="hand2")
 # pack() renderiza el botón en la ventana. 
 # padx y pady le dan márgenes (aire) horizontal y verticalmente.
 boton_seleccionar.pack(padx=30, pady=30)
