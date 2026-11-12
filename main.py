@@ -2,6 +2,7 @@ import pdfplumber
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog, messagebox
+from pdf2docx import Converter
 
 def convertir_documento(ruta_pdf, ruta_excel):
     """
@@ -23,6 +24,9 @@ def convertir_documento(ruta_pdf, ruta_excel):
         df.to_excel(ruta_excel, index=False, header=False)
         # Mostramos un mensaje de confirmación al usuario
         messagebox.showinfo("Conversión Exitosa", "El PDF ha sido convertido exitosamente a Excel.")
+
+def convertir_a_word(ruta_pdf, ruta_word):
+    print(f"Convirtiendo {ruta_pdf} a Word...")
 
 #convertir_documento("Prueba.pdf")
 
