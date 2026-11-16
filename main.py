@@ -17,13 +17,35 @@ def convertir_documento(ruta_pdf, ruta_excel):
         # extract_table() mapea las coordenadas del PDF y devuelve los datos en una lista de listas
         tabla = primera_pagina.extract_table()
         # --- TRANSFORMACIÓN Y CARGA ---
-        #Convertimos la lista de listas en un DataFrame (estructura de tabla virtual en memoria)
-        df = pd.DataFrame(tabla)
+        if tabla :
+            #Modo normal 
+            #Convertimos la lista de listas en un DataFrame (estructura de tabla virtual en memoria)
+            df = pd.DataFrame(tabla)
+            
+            mensaje_titulo = "Conversión Exitosa"
+            mensaje_texto = "El PDF ha sido convertido exitosamente a Excel."
+        else:
+            #Alternativa si no se detecta tabla, extraemos el texto y lo limpiamos
+            texto_crudo = primera_pagina.extract_text() 
+            
+            renglones = texto_crudo.split("\n") #Separa el texto en renglones usando el salto de línea como delimitador
+            
+            datos_crudos = [] #Lista vacía para almacenar los datos extraídos
+            
+            for renglon in renglones:
+                renglon_limpio = renglon.strip() #Elimina los espacios en blanco al principio y al final del renglón
+                if renglon_limpio :
+                    datos_crudos.append([renglon_limpio]) #Agrega el renglón limpio a la lista de datos crudos
+            # Creamos un DataFrame con los datos crudos, cada renglón será una fila en la columna A
+            df = pd.DataFrame(datos_crudos)
+            mensaje_titulo = "Conversión Exitosa"
+            mensaje_texto =  "El PDF no tenía tablas detectables.\nSe exportó el texto en crudo en la Columna A para que puedas ordenarlo desde Excel."
+
         # Exportamos el DataFrame a un archivo Excel físico.
         # index=False y header=False evitan que Pandas agregue números de fila y columna automáticos.
         df.to_excel(ruta_excel, index=False, header=False)
         # Mostramos un mensaje de confirmación al usuario
-        messagebox.showinfo("Conversión Exitosa", "El PDF ha sido convertido exitosamente a Excel.")
+        messagebox.showinfo(mensaje_titulo, mensaje_texto)
 
 def convertir_a_word(ruta_pdf, ruta_word):
     """

@@ -6,12 +6,13 @@ Una herramienta automatizada con interfaz gráfica en Python para extraer inform
 
 - **Interfaz Gráfica (GUI):** Ventana interactiva y amigable con botones dedicados para cada formato de exportación.
 - **Flujo dinámico:** Utiliza el explorador nativo de Windows para elegir qué PDF abrir y dónde guardar el archivo resultante.
+- **Manejo de PDFs sin formato (Fallback):** Si el documento no posee tablas estructuradas, el sistema evita errores realizando un volcado inteligente de texto en crudo, permitiendo al usuario ordenar los datos usando la herramienta nativa "Texto en columnas" de Excel.
 - **Conversión a Word:** Reconstruye el texto, las tablas y el diseño del PDF original a un formato Word nativo.
 - **Portabilidad:** Empaquetado en un ejecutable `.exe` para usar en cualquier computadora con Windows sin necesidad de instalar Python.
 
-## ⚠️ Alcance y Limitaciones (Versión 2.0)
+## ⚠️ Alcance y Limitaciones (Versión 2.1)
 
-- **Para Excel:** El programa solo extrae información de *tablas nativas estructuradas* (con bordes o celdas definidas lógicamente). No procesa correctamente texto alineado con espacios/tabulaciones.
+- **Para Excel:** El programa solo extrae información de *tablas nativas estructuradas* (con bordes o celdas definidas lógicamente). Los PDFs con texto simplemente alineado por espacios se exportarán en formato crudo a la primera columna, requiriendo un paso manual de separación en Excel.
 - **Para Word:** La precisión de la conversión depende del diseño del PDF. Al pasar de coordenadas fijas a texto fluido, pueden ocurrir ligeras variaciones de formato.
 - **Limitación General:** No funciona con PDFs escaneados o imágenes (la integración con OCR está planeada para futuras versiones).
 
