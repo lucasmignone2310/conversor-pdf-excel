@@ -7,8 +7,16 @@ import pymupdf as fitz # pip install PyMuPDF. Saca información de la imagen de 
 import pytesseract # pip install pytesseract. LLeva la imagen al motor y trae el texto. Es un motor OCR (Optical Character Recognition) (Mensajero)
 import docx # pip install python-docx
 import os # Librería estándar de Python para interactuar con el sistema operativo (manejo de archivos, rutas, etc.)
+import sys # Librería estándar de Python para interactuar con el sistema operativo (manejo de archivos, rutas, etc.)
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"  # Ruta al ejecutable de Tesseract. La r antes de las comillas es para indicar que es una cadena cruda (raw string) y evitar problemas con las barras invertidas en la ruta.
+if getattr(sys, 'frozen', False): # 
+    # Si corre como .exe, busca Tesseract adentro del paquete temporal
+    ruta_base = sys._MEIPASS
+    pytesseract.pytesseract.tesseract_cmd = os.path.join(ruta_base, "Tesseract-OCR", "tesseract.exe")
+else:
+    # Si corre normal desde VS Code
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"  # Ruta al ejecutable de Tesseract. La r antes de las comillas es para indicar que es una cadena cruda (raw string) y evitar problemas con las barras invertidas en la ruta.
+
 
 def convertir_documento(ruta_pdf, ruta_excel):
     """
